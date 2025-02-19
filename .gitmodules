@@ -1,0 +1,6 @@
+[submodule "MizuVM"]
+	path = MizuVM
+	url = https://github.com/joshuadahlunr/MizuVM.git
+[submodule "nanobench"]
+	path = nanobench
+	url = https://github.com/martinus/nanobench.git
