@@ -97,3 +97,26 @@ M3 Mac Bubble-Sort(100)
 |       22,244,247.14 |               44.96 |    0.1% |     26.53 | `Lua 5.4.7 bubble(1100)`
 |      121,415,521.84 |                8.24 |    0.1% |    144.83 | `Python 3.13.2 bubble(1100)`
 |       25,943,372.47 |               38.55 |    0.2% |     31.00 | `Wasm3(c) v0.5.0 bubble(1100)`
+
+
+## WASM Benchmarks
+
+PC (linux)
+|               ns/op |                op/s |    err% |     total | benchmark
+|--------------------:|--------------------:|--------:|----------:|:----------
+|   20,178,235,000.00 |                0.05 |    0.1% |    221.57 | `Mizu(Emscripten/Linux Chrome) fib(40)`
+|   45,185,000,000.00 |                0.02 |    0.7% |    496.62 | `Mizu(Emscripten/Linux Firefox) fib(40)`
+|   13,429,288,639.00 |                0.07 |    0.1% |    147.80 | `Mizu(WASI/Linux NodeJS) fib(40)`
+|       81,240,595.24 |               12.31 |    1.2% |    105.62 | `Mizu(Emscripten/Linux Chrome) bubble(1100)`
+|      207,782,321.43 |                4.81 |    1.2% |    271.04 | `Mizu(Emscripten/Linux Firefox) bubble(1100)`
+|       57,434,897.81 |               17.41 |    0.0% |     74.88 | `Mizu(WASI/Linux NodeJS) bubble(1100)`
+
+
+
+### Running The Benchmark
+
+emcmake cmake .. -DBENCHMARK_MODE=web -DMIZU_NO_EXCEPTIONS=on -DCMAKE_BUILD_TYPE=Release
+emrun web.html
+
+cmake .. -DCMAKE_TOOLCHAIN_FILE=/home/joshuadahl/Dev/wasi-sdk/build/install/share/cmake/wasi-sdk.cmake -DBENCHMARK_MODE=wasi -DMIZU_ENABLE_LIB_FFI=off -DMIZU_NO_EXCEPTIONS=on -DCMAKE_BUILD_TYPE=Release
+node --experimental-wasm-return_call ../wasi_exec.js wasi
