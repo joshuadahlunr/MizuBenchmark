@@ -80,3 +80,22 @@ M3 Mac Bubble-Sort(100)
 |        2,512,958.00 |              397.94 |    2.7% |      0.03 | `Lua 5.4.7 bubble(100)`
 |       16,242,208.00 |               61.57 |    1.0% |      0.18 | `Python 3.13.2 bubble(100)`
 |        2,784,708.00 |              359.10 |    4.2% |      0.03 | `Wasm3(c) v0.5.0 bubble(100)`
+
+
+## Web Benchmarks
+
+PC (linux)
+|               ns/op |                op/s |    err% |     total | benchmark
+|--------------------:|--------------------:|--------:|----------:|:----------
+|   19,851,700,000.00 |                0.05 |    0.1% |    218.49 | `Mizu(WASM/Chrome) fib(40)`
+|    8,278,000,000.00 |                0.12 |    0.1% |     91.14 | `Mizu(WASM/Firefox) fib(40)`
+|        2,284,705.88 |              437.69 |   24.4% |      1.82 | `Mizu(WASM/Chrome) bubble(100)`
+|        2,545,454.55 |              392.86 |   21.9% |      2.04 | `Mizu(WASM/Firefox) bubble(100)`
+
+
+
+# Running The Benchmark
+
+cmake .. -DCMAKE_TOOLCHAIN_FILE=/home/joshuadahl/Dev/wasi-sdk/build/install/share/cmake/wasi-sdk.cmake -DBENCHMARK_MODE=wasi -DMIZU_ENABLE_LIB_FFI=off -DMIZU_NO_EXCEPTIONS=on -DCMAKE_BUILD_TYPE=Release
+emcmake cmake .. -DBENCHMARK_MODE=web -DMIZU_NO_EXCEPTIONS=on -DCMAKE_BUILD_TYPE=Release
+
