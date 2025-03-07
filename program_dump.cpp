@@ -1,4 +1,5 @@
 #define MIZU_IMPLEMENTATION
+#include <mizu/serialize.hpp>
 #include "fib_program.h"
 #include "bubble_program.h"
 #include <fstream>
