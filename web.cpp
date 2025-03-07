@@ -1,3 +1,4 @@
+#include <algorithm>
 #define ANKERL_NANOBENCH_IMPLEMENT
 #include "nanobench.h"
 
@@ -7,21 +8,21 @@
 #include "bubble_program.h"
 
 int main() {
-	ankerl::nanobench::Bench().run("Mizu(WEB) bubble(100)", []{
+	ankerl::nanobench::Bench().minEpochIterations(109).run("Mizu(WEB) bubble(1100)", []{
 		registers_and_stack env = {};
 		setup_enviornment(env);
 
 		MIZU_START_FROM_ENVIORNMENT(bubble_program, env);
 		// ankerl::nanobench::doNotOptimizeAway(env);
 
-		// auto start = env.memory.end() - numbers.size();
-		// for(size_t i = 0; i < 100; ++i)
-		// 	assert(start[i] == sorted[i]);
+		auto start = env.memory.end() - numbers.size();
+		for(size_t i = 0; i < sorted.size(); ++i)
+			assert(start[i] == sorted[i]);
 	});
 
 	std::cout << std::string(20, '-') << std::endl;
 
-	ankerl::nanobench::Bench().run("Mizu(WEB) fib(40)", []{
+	ankerl::nanobench::Bench().minEpochIterations(109).run("Mizu(WEB) fib(40)", []{
 		registers_and_stack env = {};
 		setup_enviornment(env);
 
