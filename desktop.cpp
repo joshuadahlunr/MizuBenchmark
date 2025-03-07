@@ -1,8 +1,10 @@
 #include "nanobench.h"
 
 #define MIZU_IMPLEMENTATION
+#include <mizu/serialize.hpp>
 #include "fib_program.h"
 #include "bubble_program.h"
+
 #include <cstring>
 #include <fstream>
 #include <iostream>
@@ -69,15 +71,15 @@ int main() {
 	});
 
 #ifdef _WIN32
-	ankerl::nanobench::Bench().run("EXE(native) fib(40)", []{
+	ankerl::nanobench::Bench().minEpochIterations(10000).run("EXE(native) fib(40)", []{
 		assert_with_side_effects(system("..\\fib.exe") == 0);
 	});
 #elif defined(__arm64__)
-	ankerl::nanobench::Bench().run("EXE(native) fib(40)", []{
+	ankerl::nanobench::Bench().minEpochIterations(10000).run("EXE(native) fib(40)", []{
 		assert_with_side_effects(system("../fib.arm64.osx") == 0);
 	});
 #else
-	ankerl::nanobench::Bench().run("APE(native) fib(40)", []{
+	ankerl::nanobench::Bench().minEpochIterations(10000).run("APE(native) fib(40)", []{
 		assert_with_side_effects(system("../fib.ape.com") == 0);
 	});
 #endif
@@ -114,7 +116,7 @@ int main() {
 	std::cout << std::string(20, '-') << std::endl;
 
 
-	ankerl::nanobench::Bench().run("Mizu(file + loading) bubble(100)", []{
+	ankerl::nanobench::Bench().minEpochIterations(100).run("Mizu(file + loading) bubble(1100)", []{
 		fp::raii::dynarray<opcode> bubble_program_data; {
 			std::ifstream f("bubble.mizu.bin", std::ios::binary);
 			assert(f.good());
@@ -136,10 +138,10 @@ int main() {
 		ankerl::nanobench::doNotOptimizeAway(env);
 
 		auto start = env.memory.end() - numbers.size();
-		for(size_t i = 0; i < 100; ++i)
+		for(size_t i = 0; i < numbers.size(); ++i)
 			assert(start[i] == sorted[i]);
 	});
-	ankerl::nanobench::Bench().run("Mizu(file + loading + data loading) bubble(100)", []{
+	ankerl::nanobench::Bench().minEpochIterations(100).run("Mizu(file + loading + data loading) bubble(1100)", []{
 		fp::raii::dynarray<opcode> bubble_program_data; {
 			std::ifstream f("bubble.mizu.bin", std::ios::binary);
 			assert(f.good());
@@ -175,25 +177,25 @@ int main() {
 		ankerl::nanobench::doNotOptimizeAway(env);
 
 		auto start = env.memory.end() - numbers.size();
-		for(size_t i = 0; i < 100; ++i)
+		for(size_t i = 0; i < numbers.size(); ++i)
 			assert(start[i] == sorted[i]);
 	});
 
 #ifdef _WIN32
-	ankerl::nanobench::Bench().run("EXE(native) bubble(100)", []{
+	ankerl::nanobench::Bench().minEpochIterations(10000).run("EXE(native) bubble(1100)", []{
 		assert_with_side_effects(system("..\\bubble.exe") == 0);
 	});
 #elif defined(__arm64__)
-	ankerl::nanobench::Bench().run("EXE(native) bubble(100)", []{
+	ankerl::nanobench::Bench().minEpochIterations(10000).run("EXE(native) bubble(1100)", []{
 		assert_with_side_effects(system("../bubble.arm64.osx") == 0);
 	});
 #else
-	ankerl::nanobench::Bench().run("APE(native) bubble(100)", []{
+	ankerl::nanobench::Bench().minEpochIterations(10000).run("APE(native) bubble(1100)", []{
 		assert_with_side_effects(system("../bubble.ape.com") == 0);
 	});
 #endif
 
-	ankerl::nanobench::Bench().run("Node bubble(100)", []{
+	ankerl::nanobench::Bench().minEpochIterations(100).run("Node bubble(1100)", []{
 		assert_with_side_effects(system("node ../bubble.js") == 0);
 	});
 
@@ -201,15 +203,15 @@ int main() {
 		assert_with_side_effects(system("../dotnet/bubble") == 0);
 	});
 
-	ankerl::nanobench::Bench().run("LuaJIT bubble(100)", []{
+	ankerl::nanobench::Bench().minEpochIterations(100).run("LuaJIT bubble(1100)", []{
 		assert_with_side_effects(system(PATH_PREFIX "luajit ../bubble.lua") == 0);
 	});
 
-	ankerl::nanobench::Bench().run("Lua bubble(100)", []{
+	ankerl::nanobench::Bench().minEpochIterations(100).run("Lua bubble(1100)", []{
 		assert_with_side_effects(system(PATH_PREFIX "lua ../bubble.lua") == 0);
 	});
 
-	ankerl::nanobench::Bench().run("Python bubble(100)", []{
+	ankerl::nanobench::Bench().minEpochIterations(100).run("Python bubble(1100)", []{
 		assert_with_side_effects(system("python ../bubble.py") == 0);
 	});
 
@@ -217,7 +219,7 @@ int main() {
 		assert_with_side_effects(system("numba ../bubble.py") == 0);
 	});
 
-	ankerl::nanobench::Bench().run("WASM3(c) bubble(100)", []{
+	ankerl::nanobench::Bench().minEpochIterations(100).run("WASM3(c) bubble(1100)", []{
 		assert_with_side_effects(system(PATH_PREFIX "wasm3 ../bubble.wasm") == 0);
 	});
 }
