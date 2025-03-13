@@ -1,0 +1,18 @@
+{
+    "idf.openOcdConfigs": [
+        "board/esp32c6-builtin.cfg"
+    ],
+    "idf.espIdfPath": "/home/joshuadahl/esp/v5.4/esp-idf",
+    "idf.cmakeCompilerArgs": [
+        "-GNinja",
+        "-DCMAKE_BUILD_TYPE=MinSizeRel",
+        "-DPYTHON_DEPS_CHECKED=1",
+        "-DESP_PLATFORM=1"
+    ],
+    "idf.port": "/dev/ttyUSB0",
+    "idf.toolsPath": "/home/joshuadahl/.espressif",
+    "idf.flashType": "UART",
+    "idf.customExtraVars": {
+        "IDF_TARGET": "esp32c6"
+    }
+}

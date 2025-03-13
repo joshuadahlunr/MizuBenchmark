@@ -2,7 +2,8 @@
 
 #include <array>
 #include <mizu/serialize.hpp>
-#include <mizu/operations.hpp>
+#include <operations/core.hpp>
+#include <operations/unsafe.hpp>
 
 using namespace mizu;
 
