@@ -116,3 +116,13 @@ emrun web.html
 
 cmake .. -DCMAKE_TOOLCHAIN_FILE=/home/joshuadahl/Dev/wasi-sdk/build/install/share/cmake/wasi-sdk.cmake -DBENCHMARK_MODE=wasi -DMIZU_ENABLE_LIB_FFI=off -DMIZU_NO_EXCEPTIONS=on -DCMAKE_BUILD_TYPE=Release
 node --experimental-wasm-return_call ../wasi_exec.js wasi
+
+
+CC=/nix/store/wb8gf373j9isni6b0bwhf5bvmcmr4cbi-avr-gcc-wrapper-13.3.0/bin/avr-gcc CXX=/nix/store/wb8gf373j9isni6b0bwhf5bvmcmr4cbi-avr-gcc-wrapper-13.3.0/bin/avr-g++ cmake .. -DBENCHMARK_MODE=arduino -DFP_FETCH_EXTERNAL_CPPSTL=on -DMIZU_ENABLE_HARDWARE_THREADS=off -DMIZU_NO_EXCEPTIONS=on -DCMAKE_BUILD_TYPE=MinSizeRel
+
+avr-objcopy -O ihex arduino.bubble arduino.hex 
+
+make arduino.fib
+avr-objcopy -O ihex arduino.fib arduino.hex 
+avrdude -v -patmega2560 -cwiring -P/dev/ttyACM0 -D -Uflash:w:arduino.hex
+screen /dev/ttyACM0 9600
